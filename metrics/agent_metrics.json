@@ -1,0 +1,36 @@
+{
+  "session_start": "2025-11-20T17:05:46.489430",
+  "session_duration": 59.066077709198,
+  "total_queries": 1,
+  "metrics": [
+    {
+      "name": "ttft",
+      "duration": 2.2669,
+      "timestamp": "2025-11-20T17:05:55.089840",
+      "metadata": {
+        "pipeline": "voice"
+      }
+    },
+    {
+      "name": "ttft",
+      "duration": 0.7342,
+      "timestamp": "2025-11-20T17:06:25.199009",
+      "metadata": {
+        "pipeline": "voice"
+      }
+    }
+  ],
+  "summary": {
+    "session_duration": 59.06608605384827,
+    "total_queries": 1,
+    "metrics": {
+      "ttft": {
+        "count": 2,
+        "total": 3.0010742000013124,
+        "average": 1.5005371000006562,
+        "min": 0.7341806000040378,
+        "max": 2.2668935999972746
+      }
+    }
+  }
+}

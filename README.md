@@ -53,7 +53,7 @@ Voice Output (Cartesia TTS)
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/soffotech-rag-agent.git
+git clone https://github.com/george07-t/RAGVoice-AI.git
 cd soffotech-rag-agent
 
 # Create virtual environment

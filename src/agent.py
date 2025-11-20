@@ -37,9 +37,8 @@ from livekit.agents import (
     RunContext,
     WorkerOptions,
     cli,
-    metrics,
-    
 )
+from livekit.agents import metrics as lk_metrics  # LiveKit metrics
 from livekit.agents.llm import function_tool
 from livekit.plugins import cartesia, deepgram, noise_cancellation, openai, silero, langchain
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
@@ -242,7 +241,7 @@ async def entrypoint(ctx: JobContext):
 
     # Metrics collection, to measure pipeline performance
     # For more information, see https://docs.livekit.io/agents/build/metrics/
-    usage_collector = metrics.UsageCollector()
+    usage_collector = lk_metrics.UsageCollector()
 
     @session.on("metrics_collected")
     def _on_metrics_collected(ev: MetricsCollectedEvent):
@@ -258,7 +257,7 @@ async def entrypoint(ctx: JobContext):
         Args:
             ev: MetricsCollectedEvent containing pipeline metrics
         """
-        metrics.log_metrics(ev.metrics)
+        lk_metrics.log_metrics(ev.metrics)
         usage_collector.collect(ev.metrics)
         
         # Log to custom metrics logger
