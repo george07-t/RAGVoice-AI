@@ -10,7 +10,7 @@ This module implements a voice-enabled AI agent that:
 
 Architecture:
     Voice Input → STT → Multi-Agent System → TTS → Voice Output
-    
+
 Performance:
     - STT latency: ~0.5s
     - Agent processing: 1-3s
@@ -18,12 +18,11 @@ Performance:
     - Total end-to-end: 2-5s
 """
 
-import logging
-import threading
-import signal
 import contextlib
-from multi_agent_rag import graph  # 🎯 Import multi-agent RAG system
-from metrics_logger import get_metrics_logger  # 📊 Metrics tracking
+import logging
+import signal
+import threading
+
 from dotenv import load_dotenv
 from livekit.agents import (
     NOT_GIVEN,
@@ -40,13 +39,22 @@ from livekit.agents import (
 )
 from livekit.agents import metrics as lk_metrics  # LiveKit metrics
 from livekit.agents.llm import function_tool
-from livekit.plugins import cartesia, deepgram, noise_cancellation, openai, silero, langchain
+from livekit.plugins import (
+    cartesia,
+    deepgram,
+    langchain,
+    noise_cancellation,
+    silero,
+)
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
+
+from metrics_logger import get_metrics_logger  # 📊 Metrics tracking
+from multi_agent_rag import graph  # 🎯 Import multi-agent RAG system
 
 # Monkey patch to fix signal handling in non-main thread on Windows
 try:
     import livekit.agents.ipc.supervised_proc as sp
-    
+
     @contextlib.contextmanager
     def _safe_mask_ctrl_c():
         """Safe SIGINT masking that only runs in main thread"""
@@ -59,7 +67,7 @@ try:
         else:
             # Non-main thread: skip signal masking
             yield
-    
+
     sp._mask_ctrl_c = _safe_mask_ctrl_c
 except (ImportError, AttributeError):
     # If the module structure changes, fail gracefully
@@ -73,21 +81,21 @@ load_dotenv(".env.local")
 class Assistant(Agent):
     """
     Voice AI Assistant with Multi-Agent Capabilities.
-    
+
     This assistant provides:
     - Document-based Q&A through RAG (5 comprehensive documents)
     - Real-time information via API tools (weather, currency, time)
     - Natural conversation handling
-    
+
     The assistant is optimized for voice interaction with:
     - Concise responses (2-3 sentences by default)
     - Source citations for factual claims
     - Conversational tone
-    
+
     Attributes:
         instructions: System prompt defining assistant capabilities
     """
-    
+
     def __init__(self) -> None:
         """
         Initialize the Assistant with instructions and capabilities.
@@ -122,7 +130,7 @@ class Assistant(Agent):
     async def sample_function(self, context: RunContext, param: str):
         """
         Sample function tool (placeholder for future extensions).
-        
+
         Args:
             param: Sample parameter
         """
@@ -133,39 +141,39 @@ class Assistant(Agent):
 def prewarm(proc: JobProcess):
     """
     Pre-warm models and initialize systems before agent starts.
-    
+
     This function runs once during agent startup to load heavy resources
     into memory, reducing cold-start latency for first user interaction.
-    
+
     Operations performed:
     1. Load VAD (Voice Activity Detection) model for turn detection
     2. Initialize RAG system (load FAISS vector store)
     3. Pre-load embeddings model
-    
+
     Args:
         proc: JobProcess instance containing shared user data
-        
+
     Side Effects:
         - Sets proc.userdata["vad"] with loaded VAD model
         - Sets proc.userdata["rag_ready"] flag indicating RAG availability
         - Sets proc.userdata["metrics"] with global metrics logger
     """
     logger.info("Starting pre-warm sequence...")
-    
+
     # Initialize metrics logger
     metrics = get_metrics_logger(log_file="metrics/agent_metrics.json")
     proc.userdata["metrics"] = metrics
     logger.info("✓ Metrics logger initialized")
-    
+
     # Load VAD model
     logger.info("Loading VAD model...")
     proc.userdata["vad"] = silero.VAD.load()
-    
+
     # Initialize RAG system (load vector store)
     logger.info("Pre-warming RAG system...")
     try:
         from rag_system import get_rag_system
-        rag = get_rag_system()
+        get_rag_system()
         proc.userdata["rag_ready"] = True
         logger.info("✅ RAG system pre-warmed successfully")
     except Exception as e:
@@ -176,17 +184,17 @@ def prewarm(proc: JobProcess):
 async def entrypoint(ctx: JobContext):
     """
     Main entrypoint for the LiveKit voice agent.
-    
+
     This async function:
     1. Sets up the voice pipeline (STT, LLM, TTS)
     2. Configures turn detection and VAD
     3. Initializes metrics collection
     4. Connects to the LiveKit room
     5. Handles user voice interactions
-    
+
     Args:
         ctx: JobContext containing room, process, and configuration
-        
+
     Lifecycle:
         - Called when a new user joins the room
         - Runs until user disconnects or agent is stopped
@@ -197,7 +205,7 @@ async def entrypoint(ctx: JobContext):
     if metrics:
         metrics.increment_query_count()
         logger.info(f"Session started (Query #{metrics.total_queries})")
-    
+
     # Logging setup
     # Add any other context you want in all log entries here
     ctx.log_context_fields = {
@@ -247,19 +255,19 @@ async def entrypoint(ctx: JobContext):
     def _on_metrics_collected(ev: MetricsCollectedEvent):
         """
         Handle metrics collection events from LiveKit pipeline.
-        
+
         This callback receives metrics for:
         - STT latency (speech-to-text processing time)
         - LLM inference time
         - TTS generation time (text-to-speech)
         - Turn detection timing
-        
+
         Args:
             ev: MetricsCollectedEvent containing pipeline metrics
         """
         lk_metrics.log_metrics(ev.metrics)
         usage_collector.collect(ev.metrics)
-        
+
         # Log to custom metrics logger
         custom_metrics = ctx.proc.userdata.get("metrics")
         if custom_metrics and hasattr(ev.metrics, 'ttft'):
@@ -270,7 +278,7 @@ async def entrypoint(ctx: JobContext):
                     ev.metrics.ttft,
                     metadata={"pipeline": "voice"}
                 )
-            
+
             # Log STT, LLM, TTS separately if available
             if hasattr(ev.metrics, 'stt_latency'):
                 custom_metrics.record_metric(
@@ -278,14 +286,14 @@ async def entrypoint(ctx: JobContext):
                     ev.metrics.stt_latency,
                     metadata={"provider": "deepgram", "model": "nova-3"}
                 )
-            
+
             if hasattr(ev.metrics, 'llm_latency'):
                 custom_metrics.record_metric(
                     "llm_inference",
                     ev.metrics.llm_latency,
                     metadata={"provider": "langchain", "backend": "multi-agent"}
                 )
-            
+
             if hasattr(ev.metrics, 'tts_latency'):
                 custom_metrics.record_metric(
                     "tts_generation",
@@ -299,7 +307,7 @@ async def entrypoint(ctx: JobContext):
         """
         summary = usage_collector.get_summary()
         logger.info(f"LiveKit Usage Summary: {summary}")
-        
+
         # Log custom metrics summary
         custom_metrics = ctx.proc.userdata.get("metrics")
         if custom_metrics:

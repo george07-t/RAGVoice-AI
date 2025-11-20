@@ -1,35 +1,67 @@
 {
-  "session_start": "2025-11-20T17:05:46.489430",
-  "session_duration": 59.066077709198,
+  "session_start": "2025-11-20T17:11:29.028183",
+  "session_duration": 90.7526924610138,
   "total_queries": 1,
   "metrics": [
     {
       "name": "ttft",
-      "duration": 2.2669,
-      "timestamp": "2025-11-20T17:05:55.089840",
+      "duration": 1.9437,
+      "timestamp": "2025-11-20T17:11:35.250754",
       "metadata": {
         "pipeline": "voice"
       }
     },
     {
       "name": "ttft",
-      "duration": 0.7342,
-      "timestamp": "2025-11-20T17:06:25.199009",
+      "duration": 0.5046,
+      "timestamp": "2025-11-20T17:12:14.848533",
+      "metadata": {
+        "pipeline": "voice"
+      }
+    },
+    {
+      "name": "ttft",
+      "duration": 0.5077,
+      "timestamp": "2025-11-20T17:12:23.421854",
+      "metadata": {
+        "pipeline": "voice"
+      }
+    },
+    {
+      "name": "ttft",
+      "duration": 0.4687,
+      "timestamp": "2025-11-20T17:12:26.431746",
+      "metadata": {
+        "pipeline": "voice"
+      }
+    },
+    {
+      "name": "ttft",
+      "duration": 0.5275,
+      "timestamp": "2025-11-20T17:12:36.896486",
+      "metadata": {
+        "pipeline": "voice"
+      }
+    },
+    {
+      "name": "ttft",
+      "duration": 1.0549,
+      "timestamp": "2025-11-20T17:12:53.087340",
       "metadata": {
         "pipeline": "voice"
       }
     }
   ],
   "summary": {
-    "session_duration": 59.06608605384827,
+    "session_duration": 90.75270533561707,
     "total_queries": 1,
     "metrics": {
       "ttft": {
-        "count": 2,
-        "total": 3.0010742000013124,
-        "average": 1.5005371000006562,
-        "min": 0.7341806000040378,
-        "max": 2.2668935999972746
+        "count": 6,
+        "total": 5.007122299983166,
+        "average": 0.8345203833305277,
+        "min": 0.4687432999780867,
+        "max": 1.943656599993119
       }
     }
   }

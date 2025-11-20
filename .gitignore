@@ -3,6 +3,9 @@
 .env.*
 !.env.example
 
+# LiveKit configuration (user-specific)
+livekit.toml
+
 # Python
 __pycache__/
 *.py[cod]

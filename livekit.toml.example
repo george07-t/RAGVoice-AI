@@ -1,0 +1,10 @@
+# LiveKit Configuration Example
+# Copy this file to livekit.toml and fill in your values
+
+[project]
+  # Your LiveKit Cloud subdomain (e.g., "your-project-name")
+  subdomain = "your-subdomain"
+
+[agent]
+  # Your agent ID from LiveKit Cloud dashboard
+  id = "your-agent-id"
