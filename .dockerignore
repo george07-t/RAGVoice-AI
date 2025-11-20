@@ -1,0 +1,64 @@
+# Python bytecode and artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Caches and test output
+.cache/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+coverage/
+htmlcov/
+
+# Logs and temp files
+*.log
+*.gz
+*.tgz
+.tmp
+KMS/
+
+# Environment variables (keep .env.example for reference)
+.env
+.env.local
+.env.*
+!.env.example
+
+# VCS, editor, OS
+.git/
+.gitignore
+.gitattributes
+.github/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Documentation (keep in image)
+# README.md
+# PROJECT_README.md
+# LICENSE
+
+# Project tests
+tests/
+test/
+eval/
+evals/
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Vector store (will be generated on first run)
+vector_store/

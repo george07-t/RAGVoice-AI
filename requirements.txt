@@ -1,0 +1,13 @@
+livekit-agents[openai,turn-detector,silero,cartesia,deepgram,langchain]~=1.2
+livekit-plugins-noise-cancellation~=0.2
+python-dotenv
+langchain
+langgraph
+langchain_openai
+langchain_core
+langchain_community
+requests
+faiss-cpu
+sentence-transformers
+tiktoken
+pytz
