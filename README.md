@@ -18,25 +18,7 @@ A sophisticated voice-enabled AI agent combining **Retrieval-Augmented Generatio
 
 ## 🏗️ Architecture
 
-```
-Voice Input (Deepgram STT)
-        ↓
-[LangGraph Orchestrator]
-        ↓
-    ┌───┴────────────┐
-    ↓                ↓
-[RAG Agent]    [Tool Agent]    [General Agent]
-    ↓                ↓                ↓
-  FAISS DB      Weather API     Conversation
-  (5 Docs)      Currency API
-                Time API
-    ↓                ↓                ↓
-    └────────┬───────┴────────────────┘
-             ↓
-      Response Synthesis
-             ↓
-Voice Output (Cartesia TTS)
-```
+![1763639329874](image/README/1763639329874.png)
 
 ## 🚀 Quick Start
 
