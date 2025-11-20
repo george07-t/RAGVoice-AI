@@ -18,7 +18,8 @@ A sophisticated voice-enabled AI agent combining **Retrieval-Augmented Generatio
 
 ## 🏗️ Architecture
 
-![1763639329874](image/README/1763639329874.png)
+<img width="455" height="357" alt="image" src="https://github.com/user-attachments/assets/ce157892-47a3-42f3-8308-6b81a7f1047a" />
+
 
 ## 🚀 Quick Start
 
