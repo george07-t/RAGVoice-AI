@@ -1,0 +1,33 @@
+services:
+- type: pserv
+  # Change this to YOUR GitHub repository URL
+  repo: https://github.com/george07-t/RAGVoice-AI.git
+  
+  # Path to directory with Dockerfile (root directory in your case)
+  rootDir: .
+  
+  name: ragvoice-ai-agent
+  runtime: image
+
+  plan: free
+  
+  # Environment variables group (create this in Render dashboard)
+  envVars:
+  - fromGroup: ragvoice-ai-env
+  
+  region: virginia
+  
+  # Important: Allow graceful shutdown of LiveKit agent
+  maxShutdownDelaySeconds: 300
+  
+  # Auto-scaling configuration
+  scaling:
+    minInstances: 1
+    maxInstances: 4
+    targetCPUPercent: 60
+    targetMemoryPercent: 60
+    
+  # Health check (optional but recommended)
+  healthCheckPath: /health
+  
+version: "1"
