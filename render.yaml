@@ -1,5 +1,4 @@
 services:
-- type: pserv
   # Change this to YOUR GitHub repository URL
   repo: https://github.com/george07-t/RAGVoice-AI.git
   
